@@ -5,7 +5,7 @@ var manager = new Manager();
 
 manager.Run();
 
-
+Console.WriteLine("Github");
 
 /*
  * Unit testing
