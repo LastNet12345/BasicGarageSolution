@@ -1,7 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 //Console.WriteLine("Hello, World!");
+using Övning5;
 
-var manager = new Manager();
+IUI ui = new UI();  
+var manager = new Manager(ui);
 
 manager.Run();
 

@@ -7,21 +7,22 @@ using Övning5;
 
 internal class Manager
 {
-    public Manager()
+    private IUI ui;
+
+    public Manager(IUI ui)
     {
-        
+        this.ui = ui;
     }
 
     public void Run()
     {
-        IUI ui = new UI();
 
-        IHandler handler = StartManager(ui);
+        IHandler handler = StartManager();
 
-        MainMenu(ui, handler);
+        MainMenu(handler);
     }
 
-    public void MainMenu(IUI ui, IHandler currGarage)
+    public void MainMenu(IHandler currGarage)
     {
 
         while (true)
@@ -62,7 +63,7 @@ internal class Manager
                     FilterVehicles(currGarage, ui);
                     break;
                 case ConsoleKey.D7:
-                    currGarage = StartManager(ui);
+                    currGarage = StartManager();
                     break;
                 case ConsoleKey.D0:
                     Environment.Exit(0);
@@ -143,7 +144,7 @@ internal class Manager
     {
         List<string> types = new List<string>{"Car", "Boat", "Bus", "Motorcycle", "Airplane"};
 
-        foreach (var type in types)
+        foreach (string type in types)
         {
             List<IVehicle> lista = currGarage.NrOfType(type);
             ui.Output($"Det finns {lista.Count} fordon av typ {type}");
@@ -222,7 +223,7 @@ internal class Manager
     }
 
     //Startmenyn, välj startgarage
-    public IHandler StartManager(IUI ui)
+    public IHandler StartManager()
     {
         IHandler handler; 
 
@@ -236,7 +237,7 @@ internal class Manager
             switch (keyPressed)
             {
                 case ConsoleKey.D1:
-                    return NewManager(ui);
+                    return NewManager();
                 case ConsoleKey.D2:
                     handler = new GarageHandler(10);
                     handler.InitGarage();
@@ -250,7 +251,7 @@ internal class Manager
     }
 
     //Skapar ett nytt garage
-    public IHandler NewManager(IUI ui)
+    public IHandler NewManager()
     {
         ui.Output("Skriv in hur många fordon som ska få plats i garaget.");
         int capacity = ui.GetNumber();

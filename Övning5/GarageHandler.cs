@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Övning5
     {
         private Garage<IVehicle> thisGarage;
 
-        private IQueryable<IVehicle> query;
+        private IEnumerable<IVehicle> query;
         public void InitGarage()
         {
             thisGarage.Add(new Boat("ABC123", "Red", 3, 27));
@@ -23,6 +24,8 @@ namespace Övning5
         //Kan kanske förbättra/skriva ihop med något annat
         public List<IVehicle> GetGarage()
         {
+           // var strings = thisGarage.Select(v => v.Stats()).ToList();
+
             List<IVehicle> output = new List<IVehicle>();
             foreach (var vehicle in thisGarage)
             {
@@ -35,6 +38,8 @@ namespace Övning5
 
         public IVehicle? GetFromRegNr(string regNr)
         {
+
+           // return thisGarage.FirstOrDefault(v => v.RegNr.ToLower() == regNr.ToLower());
             foreach(var vehicle in thisGarage)
             {
                 if(vehicle.RegNr.ToLower() == regNr.ToLower())
@@ -53,6 +58,7 @@ namespace Övning5
 
         public bool RemoveVehicle(string regNr)
         {
+
             return thisGarage.Unpark(regNr);
         }
 
@@ -63,10 +69,19 @@ namespace Övning5
 
         public List<IVehicle> NrOfType(string type)
         {
+
+            //var res = thisGarage.GroupBy(v => v.GetType().Name)
+            //                    .Select(v => new NrOfTypes
+            //                    {
+            //                        TypeName = v.Key,
+            //                        NrOfVehicles = v.Count()
+            //                    });
+           
+
             List<IVehicle> output = new List<IVehicle>();
             foreach(var vehicle in thisGarage)
             {
-                string currType = vehicle.GetType().ToString().Split('.').Last();
+                string currType = vehicle.GetType().Name;//.ToString().Split('.').Last();
                 if (currType == type)
                 {
                     output.Add(vehicle);
@@ -80,9 +95,10 @@ namespace Övning5
             return thisGarage.IsFull;
         }
 
+        [MemberNotNull("query")]
         public void InitFilter()
         {
-            query = thisGarage.GetQuery();
+            query = thisGarage;//.GetQuery();
         }
         public void Filter(string typeQ, string typeS, int typeI)
         {
@@ -109,9 +125,7 @@ namespace Övning5
 
         public List<IVehicle> PrintFilter()
         {
-            List<IVehicle> lista = query.ToList<IVehicle>();
-
-            return lista;
+            return query.ToList();
         }
 
     }

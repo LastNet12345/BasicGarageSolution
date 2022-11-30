@@ -71,7 +71,7 @@ namespace Övning5
             }
         }
 
-        public String GetVehicleType()
+        public string GetVehicleType()
         {
             Console.WriteLine("Välj vilken typ av fordon: " +
                 "(1: Car, 2: Airplane, 3: Motorcycle, 4: Bus, 5: Boat)");
